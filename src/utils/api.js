@@ -2,18 +2,39 @@ import demoData from "./demo-data";
 
 const LS_ITEMS_KEY = "items";
 
-export const getItems = () =>
-  new Promise(resolve => {
-    let items = localStorage.getItem(LS_ITEMS_KEY);
-    let ret;
-    try {
-      items = JSON.parse(items);
-    } catch (e) {}
+let items = localStorage.getItem(LS_ITEMS_KEY);
+try {
+  items = JSON.parse(items);
+} catch (e) {}
 
-    if (Array.isArray(items)) {
-      ret = items;
-    } else {
-      ret = demoData;
-    }
-    setTimeout(resolve, 1000, ret);
-  });
+if (Array.isArray(items)) {
+  items = items;
+} else {
+  items = demoData;
+}
+items = items.map(item => ({
+  ...item,
+  date: item.date instanceof Date ? item.date : new Date(item.date)
+}));
+
+function saveItems() {
+  localStorage.setItem(LS_ITEMS_KEY, JSON.stringify(items));
+}
+
+export const getItems = () =>
+  new Promise(resolve => setTimeout(resolve, 1000, [...items]));
+
+export const addItem = item => {
+  item = {
+    id: Date.now(),
+    title: "Default title",
+    description: "",
+    priority: 1,
+    date: new Date(),
+    done: false,
+    ...item
+  };
+  items = [...items, item];
+  saveItems();
+  return Promise.resolve(item);
+};
