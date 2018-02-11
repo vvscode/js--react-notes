@@ -5,8 +5,6 @@ import { Table } from "./components/Table";
 import { TodoForm } from "./components/TodoForm";
 import { addItem, getItems } from "./utils/api";
 
-import items from "./utils/demo-data";
-
 class App extends Component {
   state = {
     items: null

@@ -7,9 +7,7 @@ try {
   items = JSON.parse(items);
 } catch (e) {}
 
-if (Array.isArray(items)) {
-  items = items;
-} else {
+if (!Array.isArray(items)) {
   items = demoData;
 }
 items = items.map(item => ({
@@ -36,5 +34,5 @@ export const addItem = item => {
   };
   items = [...items, item];
   saveItems();
-  return Promise.resolve(item);
+  return new Promise(resolve => setTimeout(resolve, 1000, item));
 };
