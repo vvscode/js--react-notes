@@ -18,7 +18,7 @@ export default class Table extends Component {
       <tbody>
         {this.props.items.map(item => (
           <tr key={item.id}>
-            <td>{item.done}</td>
+            <td>{item.done ? "X" : ""}</td>
             <td>{item.title}</td>
             <td>{item.priority}</td>
             <td>{`${item.date}`}</td>
